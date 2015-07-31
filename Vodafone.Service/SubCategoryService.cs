@@ -41,7 +41,10 @@ namespace Vodafone.Service
         public IEnumerable<SubCategory> GetCategorySubCategories(string categoryName, string subCategoryName = null)
         {
             var category = categoryRepository.GetCategoryByName(categoryName);
-            return category.SubCategories.Where(s => s.Name.ToLower().Contains(subCategoryName.ToLower().Trim()));
+            if (string.IsNullOrEmpty(subCategoryName))
+                return category.SubCategories;
+            else
+                return category.SubCategories.Where(s => s.Name.ToLower().Contains(subCategoryName.ToLower().Trim()));
         }
 
         public SubCategory GetSubCategory(int id)
